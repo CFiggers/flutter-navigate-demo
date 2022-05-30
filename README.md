@@ -1,4 +1,4 @@
-# navigate_demo
+# flutter-navigate-demo
 
 A new Flutter project demoing Navigation Tutorials from [Cookbook > Navigation](https://docs.flutter.dev/cookbook/navigation) on the Flutter documentation website. But implemented using [ClojureDart](https://github.com/Tensegritics/ClojureDart).
 
