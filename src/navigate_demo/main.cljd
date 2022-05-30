@@ -1,0 +1,66 @@
+(ns navigate-demo.main
+  ;; pure dart package are imported using string
+  (:require ["package:flutter/material.dart" :as material]
+            ["package:flutter/widgets.dart" :as widgets]
+            ["package:flutter/painting.dart" :as painting]
+            ["package:flutter/rendering.dart" :as rendering]
+            ["dart:ui" :as ui]
+            [cljd.flutter.alpha :as f]))
+
+
+(def third-route
+  (f/widget
+   :inherit [material/Navigator]
+   (material/Scaffold
+    :appBar (material/AppBar :title (material/Text "Third screen"))
+    :body (f/nest
+           material/Center
+           (material/ElevatedButton :onPressed #(.pop navigator))
+           (material/Text "Go back!")))))
+
+(def second-route
+  (f/widget
+   :inherit [material/Navigator]
+   (material/Scaffold
+    :appBar (material/AppBar :title (material/Text "Second screen"))
+    :body (f/nest
+           widgets/Center
+           (widgets/Column
+            :mainAxisAlignment (. rendering/MainAxisAlignment center)
+            :children [(f/nest
+                        material/Center
+                        (widgets/Padding :padding (. painting/EdgeInsets all 12))
+                        (material/ElevatedButton
+                         :onPressed #(.pop navigator))
+                        (material/Text "Go back!"))
+                       (f/nest
+                        material/Center
+                        (widgets/Padding :padding (. painting/EdgeInsets all 12))
+                        (material/ElevatedButton :onPressed #(do
+                                                               (.push navigator (#/(material/MaterialPageRoute Object)
+                                                                                 :builder (fn [_] third-route)))
+                                                               nil))
+                        (material/Text "Go to third screen"))])))))
+
+(def first-route
+  (f/widget
+   :inherit [material/Navigator]
+   (material/Scaffold
+    :appBar (material/AppBar
+             :title (material/Text "First screen"))
+    :body (f/nest
+           material/Center
+           (material/ElevatedButton
+            :onPressed #(do
+                          (.push navigator (#/(material/MaterialPageRoute Object)
+                                            :builder (fn [_] second-route)))
+                          nil))
+           (material/Text "Open route")))))
+
+(defn main []
+  (material/runApp
+   (material/MaterialApp
+    :title "Navigation Basics"
+    :initialRoute "/"
+    :routes {"/" (fn [_] first-route)
+             "/second" (fn [_] second-route)})))
