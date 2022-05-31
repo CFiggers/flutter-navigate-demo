@@ -26,16 +26,16 @@
     :body (f/nest
            widgets/Center
            (widgets/Column
-            :mainAxisAlignment (. rendering/MainAxisAlignment center)
+            :mainAxisAlignment rendering.MainAxisAlignment/center
             :children [(f/nest
                         material/Center
-                        (widgets/Padding :padding (. painting/EdgeInsets all 12))
+                        (widgets/Padding :padding (painting.EdgeInsets/all 12))
                         (material/ElevatedButton
                          :onPressed #(.pop navigator))
                         (material/Text "Go back!"))
                        (f/nest
                         material/Center
-                        (widgets/Padding :padding (. painting/EdgeInsets all 12))
+                        (widgets/Padding :padding (painting.EdgeInsets/all 12))
                         (material/ElevatedButton :onPressed #(do
                                                                (.push navigator (#/(material/MaterialPageRoute Object)
                                                                                  :builder (fn [_] third-route)))
